@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Calendar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        .calendar-table th { background-color: #f8f9fa; }
+        .today { background-color: #ffeb3b !important; font-weight: bold; }
+        h5 { margin-top: 20px; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Calendar 2026</h1>
+        <div class="row" id="calendar-container">
+            <!-- JavaScript will inject the 12 months here -->
+        </div>
+    </div>
+
+    <script>
+        function generateCalendar(year) {
+            const container = document.getElementById('calendar-container');
+            const months = ["January", "February", "March", "April", "May", "June", 
+                          "July", "August", "September", "October", "November", "December"];
+            
+            months.forEach((monthName, monthIndex) => {
+                let table = `<div class="col-md-4 mb-4">
+                    <h5>${monthName}</h5>
+                    <table class="table table-bordered table-sm text-center calendar-table bg-white">
+                        <thead>
+                            <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+                        </thead>
+                        <tbody>`;
+                
+                const firstDay = new Date(year, monthIndex, 1).getDay();
+                const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+                
+                let date = 1;
+                for (let i = 0; i < 6; i++) {
+                    table += "<tr>";
+                    for (let j = 0; j < 7; j++) {
+                        if (i === 0 && j < firstDay) {
+                            table += "<td></td>";
+                        } else if (date > daysInMonth) {
+                            table += "<td></td>";
+                        } else {
+                            table += `<td>${date}</td>`;
+                            date++;
+                        }
+                    }
+                    table += "</tr>";
+                    if (date > daysInMonth) break;
+                }
+                table += `</tbody></table></div>`;
+                container.innerHTML += table;
+            });
+        }
+        generateCalendar(2026);
+    </script>
+</body>
+</html>
